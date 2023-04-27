@@ -36,6 +36,7 @@ type Build struct {
 	Run                []RunItem `json:"run,omitempty" yaml:"run"`
 	SystemPackages     []string  `json:"system_packages,omitempty" yaml:"system_packages"`
 	PreInstall         []string  `json:"pre_install,omitempty" yaml:"pre_install"` // Deprecated, but included for backwards compatibility
+	Copy               []string  `json:"copy,omitempty" yaml:"copy"`
 	CUDA               string    `json:"cuda,omitempty" yaml:"cuda"`
 	CuDNN              string    `json:"cudnn,omitempty" yaml:"cudnn"`
 

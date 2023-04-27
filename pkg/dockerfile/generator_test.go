@@ -132,6 +132,8 @@ build:
     - pandas==1.2.0.12
   run:
     - "cowsay moo"
+  copy:
+    - "foo.txt /bar.txt"
 predict: predict.py:Predictor
 `))
 	require.NoError(t, err)
@@ -155,6 +157,7 @@ RUN cowsay moo
 WORKDIR /src
 EXPOSE 5000
 CMD ["python", "-m", "cog.server.http"]
+COPY foo.txt /bar.txt
 COPY . /src`
 	require.Equal(t, expected, actual)
 
@@ -180,6 +183,8 @@ build:
     - pandas==1.2.0.12
   run:
     - "cowsay moo"
+  copy:
+    - "foo.txt /bar.txt"
 predict: predict.py:Predictor
 `))
 	require.NoError(t, err)
@@ -205,6 +210,7 @@ RUN cowsay moo
 WORKDIR /src
 EXPOSE 5000
 CMD ["python", "-m", "cog.server.http"]
+COPY foo.txt /bar.txt
 COPY . /src`
 
 	require.Equal(t, expected, actual)

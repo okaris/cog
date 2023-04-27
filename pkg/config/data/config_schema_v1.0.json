@@ -117,6 +117,12 @@
               }
             ]
           }
+        },
+        "copy": {
+          "$id": "#properties/build/properties/copy",
+          "type": "array",
+          "description": "A list of files to copy into the Docker image. If you're familiar with Docker, it's like a `COPY` instruction in your `Dockerfile`.",
+          "additionalItems": true
         }
       },
       "additionalProperties": false

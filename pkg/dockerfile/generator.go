@@ -84,6 +84,10 @@ func (g *Generator) GenerateBase() (string, error) {
 	if err != nil {
 		return "", err
 	}
+	copy, err := g.copy()
+	if err != nil {
+		return "", err
+	}
 
 	return strings.Join(filterEmpty([]string{
 		"# syntax = docker/dockerfile:1.2",
@@ -98,6 +102,7 @@ func (g *Generator) GenerateBase() (string, error) {
 		`WORKDIR /src`,
 		`EXPOSE 5000`,
 		`CMD ["python", "-m", "cog.server.http"]`,
+		copy,
 	}), "\n"), nil
 }
 
@@ -253,6 +258,23 @@ This is the offending line: %s`, command)
 		} else {
 			lines = append(lines, "RUN "+command)
 		}
+	}
+	return strings.Join(lines, "\n"), nil
+}
+
+func (g *Generator) copy() (string, error) {
+	copyPaths := g.Config.Build.Copy
+	
+	lines := []string{}
+	for _, path := range copyPaths {
+		path := strings.TrimSpace(path)
+		if strings.Contains(path, "\n") {
+			return "", fmt.Errorf(`One of the commands in 'copy' contains a new line, which won't work. You need to create a new list item in YAML prefixed with '-' for each path.
+
+This is the offending line: %s`, path)
+		}
+
+		lines = append(lines, "COPY "+path)
 	}
 	return strings.Join(lines, "\n"), nil
 }
